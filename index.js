@@ -74,6 +74,7 @@ const getResolverOptions = (request, options = {}) => {
 };
 
 const outputResult = (request, options = {}) => {
+  if (!request) { program.help(); }
   const resolverOptions = getResolverOptions(request, options);
   const resolver = makeResolver(resolverOptions);
   //console.log({}, options.basepath, request, formatter(request, options));
@@ -85,6 +86,5 @@ program
   .arguments('<request>', 'Thing to resolve using enhanced-resolve')
   .option('-s, --suppress', 'Suppress error output')
   .option('-b, --basepath <path>', `Path to resolve from <${process.cwd()}>`, process.cwd())
-  .action(outputResult);
-
-program.parse(process.argv);
+  .action(outputResult)
+  .parse(process.argv);
