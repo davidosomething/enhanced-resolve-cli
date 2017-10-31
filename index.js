@@ -48,15 +48,21 @@ const formatter = (request, options) => (err, filepath) => {
 const getWebpackOptions = (webpackConfigPath, webpackPath) => {
   let webpack;
   let webpackCompiler;
-  let webpackConfig;
 
+  let webpackConfig;
   try {
     webpackConfig = require(require.resolve(webpackConfigPath));
-    webpackConfig = typeof webpackConfig === 'function' ? webpackConfig() : webpackConfig;
+    webpackConfig = typeof webpackConfig === 'function'
+      ? webpackConfig()
+      : webpackConfig;
 
     webpack = require(require.resolve(webpackPath));
     webpackCompiler = webpack(webpackConfig);
-    webpackCompiler = webpackCompiler.compilers ? webpackCompiler.compilers[0] : webpackCompiler;
+
+    // @TODO support options.multiConfigIndex
+    webpackCompiler = webpackCompiler.compilers
+      ? webpackCompiler.compilers[0]
+      : webpackCompiler;
 
     return webpackCompiler.options.resolve;
   } catch (e) { /**/ }
@@ -64,7 +70,7 @@ const getWebpackOptions = (webpackConfigPath, webpackPath) => {
 };
 
 const getResolverOptions = (request, options = {}) => {
-  const localWebpackConfig = findLocal(options.basepath, WEBPACK_CONFIGFILE);
+  const localWebpackConfig = findLocal(options.basepath, options.webpackConfig);
   const localWebpackPath = findLocal(options.basepath, WEBPACK_PATH);
   const resolverOptions = localWebpackConfig && localWebpackPath
     ? getWebpackOptions(localWebpackConfig, localWebpackPath) || {}
@@ -86,5 +92,6 @@ program
   .arguments('<request>', 'Thing to resolve using enhanced-resolve')
   .option('-s, --suppress', 'Suppress error output')
   .option('-b, --basepath <path>', `Path to resolve from <${process.cwd()}>`, process.cwd())
+  .option('-w, --webpackConfig <webpackConfig>', `Path to a webpack.config.js file`, WEBPACK_CONFIGFILE)
   .action(outputResult)
   .parse(process.argv);
