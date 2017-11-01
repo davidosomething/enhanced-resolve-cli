@@ -127,11 +127,11 @@ const outputResult = (request, options) => {
 program
   .version(VERSION)
   .description(DESCRIPTION)
-  .arguments('<request>', 'Thing to resolve using enhanced-resolve')
-  .option('-b, --basepath <basepath>', `Path to resolve from <${process.cwd()}>`, process.cwd())
-  .option('-d, --debug', 'Output debugging info', false)
-  .option('-s, --suppress', 'Suppress error output', false)
-  .option('-w, --webpackConfig <webpackConfig>', `Path to a webpack.config.js file`)
+  .arguments('<request>', 'thing to resolve using enhanced-resolve')
+  .option('-b, --basepath <basepath>', `path to resolve from. Defaults to cwd`, process.cwd())
+  .option('-d, --debug', 'output debugging info', false)
+  .option('-s, --suppress', 'suppress error output', false)
+  .option('-w, --webpackConfig <webpackConfig>', `path to a webpack.config.js file`)
   .action(outputResult)
   .parse(process.argv);
 

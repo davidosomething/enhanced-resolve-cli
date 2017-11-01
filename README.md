@@ -16,13 +16,18 @@ npm install -g enhanced-resolve-cli
 ```text
   Usage: enhancedresolve [options] <request>
 
+  Provides `enhancedresolve` CLI tool to output a resolved path to a requested
+  import/module with support for Node.js and webpack resolve options.
+
 
   Options:
 
-    -V, --version          output the version number
-    -s, --suppress         Suppress error output
-    -b, --basepath <path>  Path to resolve from </Users/davidosomething/projects/enhanced-resolve-cli>
-    -h, --help             output usage information
+    -V, --version                        output the version number
+    -b, --basepath <basepath>            path to resolve from. Defaults to cwd
+    -d, --debug                          output debugging info
+    -s, --suppress                       suppress error output
+    -w, --webpackConfig <webpackConfig>  path to a webpack.config.js file
+    -h, --help                           output usage information
 ```
 
 ## Vim plugin
