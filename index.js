@@ -51,9 +51,7 @@ const findLocal = (startDir = process.cwd(), needle) => {
  */
 const formatter = (request, options) => (err, filepath) => {
   if (err) {
-    if (!options.suppress) {
-      console.info(`Could not resolve ${request} from ${options.basepath}`);
-    }
+    if (!options.suppress) { console.error(`[ERROR] Could not resolve ${request} from ${options.basepath}`); }
     process.exit(1);
   }
   console.log(filepath);
@@ -96,10 +94,15 @@ const getWebpackOptions = (webpackConfigFile, webpackModule) => {
 const getResolverOptions = (request, options) => {
   const webpackConfigFile = options.webpackConfig
     || findLocal(options.basepath, WEBPACK_CONFIG_FILENAME);
-  if (options.debug) { console.info('Webpack config file: ', webpackConfigFile); }
+  if (options.debug) { console.info('[DEBUG] Webpack config file: ', webpackConfigFile); }
 
   const webpackModule = findLocal(options.basepath, WEBPACK_PATH);
-  if (options.debug) { console.info('Webpack module: ', webpackModule); }
+  if (options.debug) { console.info('[DEBUG] Webpack module: ', webpackModule); }
+
+  if (webpackConfigFile && !webpackModule) {
+    if( !options.suppress) { console.error('[ERROR] Found a webpack config file but could not find local webpack module'); }
+    process.exit(1);
+  }
 
   const resolverOptions = webpackConfigFile && webpackModule
     ? getWebpackOptions(webpackConfigFile, webpackModule) || {}
@@ -114,7 +117,7 @@ const getResolverOptions = (request, options) => {
  */
 const outputResult = (request, options) => {
   const startDir = path.resolve(options.basepath);
-  if (options.debug) { console.info('Basepath: ', startDir); }
+  if (options.debug) { console.info('[DEBUG] Basepath: ', startDir); }
 
   const resolverOptions = getResolverOptions(request, options);
   const resolver = makeResolver(resolverOptions);
