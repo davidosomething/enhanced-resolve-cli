@@ -1,6 +1,6 @@
 {
   "name": "enhanced-resolve-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Provides `enhancedresolve` CLI tool to output a resolved path to a requested import/module with support for Node.js and webpack resolve options.",
   "main": "index.js",
   "dependencies": {
