@@ -94,7 +94,7 @@ const getWebpackOptions = (webpackConfigFile, webpackModule) => {
  * @return {object} webpack resolver options for use in enhanced-resolve
  */
 const getResolverOptions = (request, options) => {
-  const webpackConfigFile = findLocal(options.basepath, options.webpackConfig)
+  const webpackConfigFile = options.webpackConfig && findLocal(options.basepath, options.webpackConfig)
     || findLocal(options.basepath, WEBPACK_CONFIG_FILENAME);
   if (options.debug) { console.info('[DEBUG] Webpack config file: ', webpackConfigFile); }
 
