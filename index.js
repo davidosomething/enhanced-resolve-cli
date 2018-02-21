@@ -68,7 +68,7 @@ const getWebpackOptions = (webpackConfigFile, webpackModule) => {
 
   let webpackConfig;
   try {
-    webpackConfig = require(require.resolve(webpackConfigPath));
+    webpackConfig = require(require.resolve(webpackConfigFile));
     webpackConfig = typeof webpackConfig === 'function'
       ? webpackConfig()
       : webpackConfig;
@@ -82,7 +82,9 @@ const getWebpackOptions = (webpackConfigFile, webpackModule) => {
       : webpackCompiler;
 
     return webpackCompiler.options.resolve;
-  } catch (e) { /**/ }
+  } catch (e) {
+    console.info(e)
+  }
   return null;
 };
 
@@ -92,7 +94,7 @@ const getWebpackOptions = (webpackConfigFile, webpackModule) => {
  * @return {object} webpack resolver options for use in enhanced-resolve
  */
 const getResolverOptions = (request, options) => {
-  const webpackConfigFile = options.webpackConfig
+  const webpackConfigFile = findLocal(options.basepath, options.webpackConfig)
     || findLocal(options.basepath, WEBPACK_CONFIG_FILENAME);
   if (options.debug) { console.info('[DEBUG] Webpack config file: ', webpackConfigFile); }
 
