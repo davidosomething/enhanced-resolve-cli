@@ -83,7 +83,7 @@ const getWebpackOptions = (webpackConfigFile, webpackModule) => {
 
     return webpackCompiler.options.resolve;
   } catch (e) {
-    console.info(e)
+    if (options.debug) { console.info('[DEBUG] Webpack config file error: ', e) }
   }
   return null;
 };
